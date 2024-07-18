@@ -18,6 +18,7 @@ int width = 0;
 
 
 struct Order {
+    std::string orderCommand;
     std::string orderID;
     std::string timestamp;
     std::string symbol;
@@ -66,7 +67,7 @@ public:
     void cancelOrder(const Order& order) {
         auto& orders = (order.type == 'B') ? buyOrders[order.symbol] : sellOrders[order.symbol]; // determine orders multiset
         auto it = std::find_if(orders.begin(), orders.end(),
-            [&](const Order& o) { return o.orderID == order.orderID; });    // give iterable matching order to be cancelled
+            [&](const Order& o) { return o.orderID == order.orderID; });    // give iterator matching order to be cancelled
         if (it != orders.end()) {
             orders.erase(it);
             mvprintw(counter++, width, "%s cancelled", order.orderID.c_str());
@@ -159,6 +160,7 @@ Order parseCSVLine(const std::string& line) { // read from csv
     }
 
     Order order;
+    order.orderCommand = tokens[0];
     order.orderID = tokens[1];
     order.timestamp = tokens[2];
     order.symbol = tokens[3];
@@ -250,7 +252,7 @@ int main() {
 
         if (order.isMarketOrder) {
             clob.processMarketOrder(order);
-        } else if (order.orderID.substr(0, 3) != "Can") {
+        } else if (order.orderCommand != "Cancel") {
             clob.addOrder(order);
         } else {
             clob.cancelOrder(order);
