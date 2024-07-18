@@ -40,7 +40,8 @@ User files have limit orders, Market file has market orders. The data in csv fil
 ## Serial Simulation
 
 1. compile with ``g++ -std=c++11 serial_clob.cpp -o clob_simulation -lncurses``
-2. ensure terminal/shell has 65 lines and 150 character width for smooth viewing of simulation
+2.  ``./clob_simulation``
+3. ensure terminal/shell has 65 lines and 150 character width for smooth viewing of simulation
 
 Final output:
 
